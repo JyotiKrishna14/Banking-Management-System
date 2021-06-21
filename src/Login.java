@@ -84,7 +84,7 @@ public class Login extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         try{
             if(ae.getSource()==jButton1){
-                conn c1 = new conn();
+                Conn c1 = new Conn();
                 String cardno  = jTextField.getText();
                 String pin  = jPasswordField.getText();
                 String q  = "select * from login where cardno = '"+cardno+"' and pin = '"+pin+"'";

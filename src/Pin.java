@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
 
 public class Pin extends JFrame implements ActionListener{
 
@@ -126,7 +125,7 @@ public class Pin extends JFrame implements ActionListener{
 
                 if(t2.getText().equals(t3.getText())){
 
-                    conn c1 = new conn();
+                    Conn c1 = new Conn();
                     String q1 = "update bank set pin = '"+b+"' where pin = '"+a+"' ";
                     String q2 = "update login set pin = '"+b+"' where pin = '"+a+"' ";
                     String q3 = "update signup3 set pin = '"+b+"' where pin = '"+a+"' ";

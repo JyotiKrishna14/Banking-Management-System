@@ -142,7 +142,7 @@ public class Transaction extends JFrame implements ActionListener {
         }else if(ae.getSource()==b6){
 
             String pinn = JOptionPane.showInputDialog("Enter PIN");
-            conn c1 = new conn();
+            Conn c1 = new Conn();
 
             try {
 

@@ -3,38 +3,33 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.sql.*;
 import java.util.Random;
-
+// importing package for calender
+import com.toedter.calendar.JDateChooser;
 public class Signup extends JFrame implements ActionListener {
 
     JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15;
     JTextField t1,t2,t3,t4,t5,t6,t7;
-    JRadioButton r1,r2,r3,r4,r5;
+    JRadioButton maleBtn,femaleBtn,r3,r4,r5;
     JButton b;
-    JComboBox c1,c2,c3;
+    JDateChooser jDateChooser;
 
 
     Random ran = new Random();
-    long first4 = (ran.nextLong() % 9000L) + 1000L;
-    long first = Math.abs(first4);
+    long random = (ran.nextLong() % 9000L) + 1000L;
+    long first = Math.abs(random);
 
 
 
     Signup(){
 
-        //Move the text to the center
+        setTitle("NEW ACCOUNT APPLICATION FORM");
 
-        setFont(new Font("System", Font.BOLD, 22));
-        Font f = getFont();
-        FontMetrics fm = getFontMetrics(f);
-        int x = fm.stringWidth("NEW ACCOUNT APPLICATION FORM");
-        int y = fm.stringWidth(" ");
-        int z = getWidth() - x;
-        int w = z/y;
-        String pad ="";
-        //for (int i=0; i!=w; i++) pad +=" ";
-        pad = String.format("%"+w+"s", pad);
-        setTitle(pad+"NEW ACCOUNT APPLICATION FORM");
-
+        ImageIcon imageIcon = new ImageIcon(ClassLoader.getSystemResource("icons/logo.jpg"));
+        Image i2 = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel jLabel = new JLabel(i3);
+        jLabel.setBounds(20,0,100,100);
+        add(jLabel);
 
 
 
@@ -114,13 +109,17 @@ public class Signup extends JFrame implements ActionListener {
         b.setBackground(Color.BLACK);
         b.setForeground(Color.WHITE);
 
-        r1 = new JRadioButton("Male");
-        r1.setFont(new Font("Raleway", Font.BOLD, 14));
-        r1.setBackground(Color.WHITE);
+        maleBtn = new JRadioButton("Male");
+        maleBtn.setFont(new Font("Raleway", Font.BOLD, 14));
+        maleBtn.setBackground(Color.WHITE);
 
-        r2 = new JRadioButton("Female");
-        r2.setFont(new Font("Raleway", Font.BOLD, 14));
-        r2.setBackground(Color.WHITE);
+        femaleBtn = new JRadioButton("Female");
+        femaleBtn.setFont(new Font("Raleway", Font.BOLD, 14));
+        femaleBtn.setBackground(Color.WHITE);
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(maleBtn);
+        buttonGroup.add(femaleBtn);
 
         r3 = new JRadioButton("Married");
         r3.setFont(new Font("Raleway", Font.BOLD, 14));
@@ -134,21 +133,14 @@ public class Signup extends JFrame implements ActionListener {
         r5.setFont(new Font("Raleway", Font.BOLD, 14));
         r5.setBackground(Color.WHITE);
 
+        ButtonGroup maritalGroup = new ButtonGroup();
+        maritalGroup.add(r3);
+        maritalGroup.add(r4);
+        maritalGroup.add(r5);
 
 
-        String[] date = {"1","2","3","4","5","6","7","8","9"};
-        c1 = new JComboBox(date);
-        c1.setBackground(Color.WHITE);
-
-        String[] month = {"January","February","March","April","May","June","July","August","September","October","November","December"};
-        c2 = new JComboBox(month);
-        c2.setBackground(Color.WHITE);
-
-        String[] year = {"1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002"};
-        c3 = new JComboBox(year);
-        c3.setBackground(Color.WHITE);
-
-
+        jDateChooser = new JDateChooser();
+        jDateChooser.setForeground(new Color(105,105,105));
 
         setLayout(null);
         l1.setBounds(140,20,600,40);
@@ -172,32 +164,16 @@ public class Signup extends JFrame implements ActionListener {
         l5.setBounds(100,240,200,30);
         add(l5);
 
-        l13.setBounds(300,240,40,30);
-        add(l13);
+        jDateChooser.setBounds(300,240,400,30);
+        add(jDateChooser);
 
-        c1.setBounds(340,240,60,30);
-        add(c1);
 
-        l14.setBounds(410,240,50,30);
-        add(l14);
 
-        c2.setBounds(460,240,100,30);
-        add(c2);
+        maleBtn.setBounds(300,290,60,30);
+        add(maleBtn);
 
-        l15.setBounds(570,240,40,30);
-        add(l15);
-
-        c3.setBounds(610,240,90,30);
-        add(c3);
-
-        l6.setBounds(100,290,200,30);
-        add(l6);
-
-        r1.setBounds(300,290,60,30);
-        add(r1);
-
-        r2.setBounds(450,290,90,30);
-        add(r2);
+        femaleBtn.setBounds(450,290,90,30);
+        add(femaleBtn);
 
         l7.setBounds(100,340,200,30);
         add(l7);
@@ -216,8 +192,6 @@ public class Signup extends JFrame implements ActionListener {
 
         r5.setBounds(635,390,100,30);
         add(r5);
-
-
 
         l9.setBounds(100,440,200,30);
         add(l9);
@@ -250,43 +224,40 @@ public class Signup extends JFrame implements ActionListener {
 
         getContentPane().setBackground(Color.WHITE);
 
-        setSize(850,850);
-        setLocation(500,90);
+        setSize(850,785);
+        setLocation(370,25);
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae){
 
+        long customerId = first;
+        String name = t1.getText();
+        String fname = t2.getText();
+        String date = ((JTextField)jDateChooser.getDateEditor().getUiComponent()).getText();
+        String gender = null;
 
-        String a = t1.getText();
-        String b = t2.getText();
-
-        String ac = (String)c1.getSelectedItem();
-        String bc = (String)c2.getSelectedItem();
-        String cc = (String)c3.getSelectedItem();
-
-        String d = null;
-        if(r1.isSelected()){
-            d = "Male";
+        if(maleBtn.isSelected()){
+            gender = "Male";
         }
-        else if(r2.isSelected()){
-            d = "Female";
+        else if(femaleBtn.isSelected()){
+            gender = "Female";
         }
 
-        String e = t3.getText();
-        String f = null;
+        String email = t3.getText();
+        String marital = null;
         if(r3.isSelected()){
-        f = "Married";
+        marital = "Married";
     }else if(r4.isSelected()){
-        f = "Unmarried";
+        marital = "Unmarried";
     }else if(r5.isSelected()){
-        f = "Other";
+        marital = "Other";
     }
 
-        String g = t4.getText();
-        String h = t5.getText();
-        String i = t6.getText();
-        String j = t7.getText();
+        String address = t4.getText();
+        String city = t5.getText();
+        String pincode = t6.getText();
+        String state = t7.getText();
 
 
         try{
@@ -295,11 +266,11 @@ public class Signup extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Fill all the required fields");
         }else{
 
-            conn c1 = new conn();
-            String q1 = "insert into signup values('"+a+"','"+b+"','"+ac+"','"+bc+"','"+cc+"','"+d+"','"+e+"','"+f+"','"+g+"','"+h+"','"+i+"','"+j+"','"+first+"')";
+            Conn c1 = new Conn();
+            String q1 = "insert into signup values('"+customerId+"','"+name+"','"+fname+"','"+date+"','"+gender+"','"+email+"','"+marital+"','"+address+"','"+city+"','"+pincode+"','"+state+"')";
             c1.s.executeUpdate(q1);
 
-            new Signup2().setVisible(true);
+            new Signup2(customerId).setVisible(true);
             setVisible(false);
         }
 

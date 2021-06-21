@@ -118,7 +118,7 @@ public class Withdrawl extends JFrame implements ActionListener{
 
                 }else{
 
-                    conn c1 = new conn();
+                    Conn c1 = new Conn();
 
 
 

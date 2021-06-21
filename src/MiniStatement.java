@@ -17,7 +17,7 @@ public class MiniStatement extends JFrame implements ActionListener{
         setLocation(200,200);
 
         try{
-            conn c1  = new conn();
+            Conn c1  = new Conn();
             String s1 = "select * from bank";
             ResultSet rs  = c1.s.executeQuery(s1);
             while(rs.next()){

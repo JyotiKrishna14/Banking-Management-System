@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.sql.*;
-import java.util.*;
 
 public class Deposit extends JFrame implements ActionListener {
 
@@ -111,9 +110,7 @@ public class Deposit extends JFrame implements ActionListener {
 
                 }else{
 
-                    conn c1 = new conn();
-
-
+                    Conn c1 = new Conn();
 
                     ResultSet rs = c1.s.executeQuery(" select * from bank where pin = '"+b+"' ");
 
