@@ -141,7 +141,7 @@ public class Withdrawl extends JFrame implements ActionListener{
 
                     JOptionPane.showMessageDialog(null, "Rs. "+a+" Debited Successfully");
 
-                    new Transaction().setVisible(true);
+                    new Transaction("").setVisible(true);
                     setVisible(false);
 
 
@@ -150,7 +150,7 @@ public class Withdrawl extends JFrame implements ActionListener{
 
             }else if(ae.getSource()==b2){
 
-                new Transaction().setVisible(true);
+                new Transaction("").setVisible(true);
                 setVisible(false);
 
             }else if(ae.getSource()==b3){

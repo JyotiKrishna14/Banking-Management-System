@@ -131,7 +131,7 @@ public class Deposit extends JFrame implements ActionListener {
 
                     JOptionPane.showMessageDialog(null, "Rs. "+a+" Deposited Successfully");
 
-                    new Transaction().setVisible(true);
+                    new Transaction("").setVisible(true);
                     setVisible(false);
 
 
@@ -140,7 +140,7 @@ public class Deposit extends JFrame implements ActionListener {
 
             }else if(ae.getSource()==b2){
 
-                new Transaction().setVisible(true);
+                new Transaction("").setVisible(true);
                 setVisible(false);
 
             }else if(ae.getSource()==b3){
