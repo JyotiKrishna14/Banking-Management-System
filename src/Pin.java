@@ -19,7 +19,7 @@ public class Pin extends JFrame implements ActionListener{
         int w = z/y;
         String pad ="";
         //for (int i=0; i!=w; i++) pad +=" ";
-        pad = String.format("%"+w+"s", pad);
+        pad = String.format("%"+w+"statement", pad);
         setTitle(pad+"PIN CHANGE");
 
 
@@ -130,9 +130,9 @@ public class Pin extends JFrame implements ActionListener{
                     String q2 = "update login set pin = '"+b+"' where pin = '"+a+"' ";
                     String q3 = "update signup3 set pin = '"+b+"' where pin = '"+a+"' ";
 
-                    c1.s.executeUpdate(q1);
-                    c1.s.executeUpdate(q2);
-                    c1.s.executeUpdate(q3);
+                    c1.statement.executeUpdate(q1);
+                    c1.statement.executeUpdate(q2);
+                    c1.statement.executeUpdate(q3);
 
 
                     JOptionPane.showMessageDialog(null, "PIN changed successfully");

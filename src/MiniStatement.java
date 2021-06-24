@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.sql.*;
@@ -19,7 +18,7 @@ public class MiniStatement extends JFrame implements ActionListener{
         try{
             Conn c1  = new Conn();
             String s1 = "select * from bank";
-            ResultSet rs  = c1.s.executeQuery(s1);
+            ResultSet rs  = c1.statement.executeQuery(s1);
             while(rs.next()){
                 //y[i][j++]=rs.getString("customer_name");
                 //y[i][j++]=rs.getString("date");

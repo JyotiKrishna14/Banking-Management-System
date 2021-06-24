@@ -89,7 +89,7 @@ public class Login extends JFrame implements ActionListener {
                 String pin  = jPasswordField.getText();
                 String q  = "select * from login where cardno = '"+cardno+"' and pin = '"+pin+"'";
 
-                ResultSet rs = c1.s.executeQuery(q);
+                ResultSet rs = c1.statement.executeQuery(q);
                 if(rs.next()){
                     setVisible(false);
                     new Transaction(pin).setVisible(true);

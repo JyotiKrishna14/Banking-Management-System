@@ -121,7 +121,7 @@ public class Transaction extends JFrame implements ActionListener {
         }
         else if(ae.getSource()== button2){
 
-            new Withdrawl().setVisible(true);
+            new Withdrawal(pin).setVisible(true);
             setVisible(false);
 
         }
@@ -148,7 +148,7 @@ public class Transaction extends JFrame implements ActionListener {
 
             try {
 
-                ResultSet rs = c1.s.executeQuery(" SELECT balance FROM bank ORDER BY pin  = '"+pinn+"' DESC LIMIT 1");
+                ResultSet rs = c1.statement.executeQuery(" SELECT balance FROM bank ORDER BY pin  = '"+pinn+"' DESC LIMIT 1");
 
                 if(rs.next()){
 

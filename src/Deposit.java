@@ -1,14 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
-import java.util.*;
 import java.util.Date;
 
 public class Deposit extends JFrame implements ActionListener {
 
     JTextField t1;
-    JButton b1,b2,b3;
+    JButton b1,b2;
     JLabel l1;
     private String pin;
 
@@ -70,7 +68,7 @@ public class Deposit extends JFrame implements ActionListener {
                 }else{
 
                     Conn c1 = new Conn();
-                    c1.s.executeUpdate("insert into bank values('"+pin+"', '"+date+"', 'Deposit', '"+amount+"')");
+                    c1.statement.executeUpdate("insert into bank values('"+pin+"', '"+date+"', 'Deposit', '"+amount+"')");
                     JOptionPane.showMessageDialog(null, "Rs. "+amount+" Deposited Successfully");
                     setVisible(false);
                     new Transaction(pin).setVisible(true);

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
 
 public class Signup2 extends JFrame implements ActionListener {
 
@@ -252,7 +251,7 @@ public class Signup2 extends JFrame implements ActionListener {
             }else{
                 Conn c1 = new Conn();
                 String q1 = "insert into signup2 values('"+customerId+"','"+religion+"','"+category+"','"+income+"','"+education+"','"+occupation+"','"+panNo+"','"+aadharNo+"','"+sCitizen+"','"+existingAccount+"')";
-                c1.s.executeUpdate(q1);
+                c1.statement.executeUpdate(q1);
 
                 new Signup3(customerId).setVisible(true);
                 setVisible(false);

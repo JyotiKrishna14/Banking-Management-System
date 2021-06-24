@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
 import java.util.Random;
 // importing package for calender
 import com.toedter.calendar.JDateChooser;
@@ -44,7 +43,7 @@ public class Signup extends JFrame implements ActionListener {
         l3 = new JLabel("Name:");
         l3.setFont(new Font("Raleway", Font.BOLD, 20));
 
-        l4 = new JLabel("Father's Name:");
+        l4 = new JLabel("Father'statement Name:");
         l4.setFont(new Font("Raleway", Font.BOLD, 20));
 
         l5 = new JLabel("Date of Birth:");
@@ -268,7 +267,7 @@ public class Signup extends JFrame implements ActionListener {
 
             Conn c1 = new Conn();
             String q1 = "insert into signup values('"+customerId+"','"+name+"','"+fname+"','"+date+"','"+gender+"','"+email+"','"+marital+"','"+address+"','"+city+"','"+pincode+"','"+state+"')";
-            c1.s.executeUpdate(q1);
+            c1.statement.executeUpdate(q1);
 
             new Signup2(customerId).setVisible(true);
             setVisible(false);
