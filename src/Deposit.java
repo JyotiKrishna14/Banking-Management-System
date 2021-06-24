@@ -2,108 +2,67 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.sql.*;
+import java.util.*;
+import java.util.Date;
 
 public class Deposit extends JFrame implements ActionListener {
 
-    JTextField t1,t2;
+    JTextField t1;
     JButton b1,b2,b3;
-    JLabel l1,l2,l3;
+    JLabel l1;
+    private String pin;
 
-    Deposit(){
+    Deposit(String pin){
 
-        setFont(new Font("System", Font.BOLD, 22));
-        Font f = getFont();
-        FontMetrics fm = getFontMetrics(f);
-        int x = fm.stringWidth("DEPOSIT");
-        int y = fm.stringWidth(" ");
-        int z = getWidth() - (5*x);
-        int w = z/y;
-        String pad ="";
-        //for (int i=0; i!=w; i++) pad +=" ";
-        pad = String.format("%"+w+"s", pad);
-        setTitle(pad+"DEPOSIT");
+        this.pin=pin;
+
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
+        Image i2 = i1.getImage().getScaledInstance(1000, 900, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel jLabel = new JLabel(i3);
+        jLabel.setBounds(0, 0, 960, 900);
+        add(jLabel);
 
 
-        l1 = new JLabel("ENTER AMOUNT YOU WANT");
-        l1.setFont(new Font("System", Font.BOLD, 35));
-
-        l2 = new JLabel("TO DEPOSIT");
-        l2.setFont(new Font("System", Font.BOLD, 35));
-
-        l3 = new JLabel("Enter Pin");
-        l3.setFont(new Font("System", Font.BOLD, 14));
+        l1 = new JLabel("ENTER AMOUNT YOU WANT TO DEPOSIT");
+        l1.setForeground(Color.white);
+        l1.setFont(new Font("System", Font.BOLD, 16));
 
         t1 = new JTextField();
         t1.setFont(new Font("Raleway", Font.BOLD, 22));
 
-        t2 = new JTextField();
-        t2.setFont(new Font("Raleway", Font.BOLD, 14));
-
         b1 = new JButton("DEPOSIT");
-        b1.setFont(new Font("System", Font.BOLD, 18));
-        b1.setBackground(Color.BLACK);
-        b1.setForeground(Color.WHITE);
-
         b2 = new JButton("BACK");
-        b2.setFont(new Font("System", Font.BOLD, 18));
-        b2.setBackground(Color.BLACK);
-        b2.setForeground(Color.WHITE);
-
-        b3 = new JButton("EXIT");
-        b3.setFont(new Font("System", Font.BOLD, 18));
-        b3.setBackground(Color.BLACK);
-        b3.setForeground(Color.WHITE);
-
 
         setLayout(null);
 
-        l3.setBounds(620,10,80,30);
-        add(l3);
+        l1.setBounds(190,290,400,35);
+        jLabel.add(l1);
 
-        t2.setBounds(700,10,40,30);
-        add(t2);
+        t1.setBounds(190,350,320,40);
+        jLabel.add(t1);
 
-        l1.setBounds(150,150,800,60);
-        add(l1);
+        b1.setBounds(390,480,150,30);
+        jLabel.add(b1);
 
-        l2.setBounds(290,210,800,60);
-        add(l2);
-
-        t1.setBounds(250,300,300,50);
-        add(t1);
-
-        b1.setBounds(260,380,125,50);
-        add(b1);
-
-        b2.setBounds(415,380,125,50);
-        add(b2);
-
-        b3.setBounds(300,550,200,50);
-        add(b3);
-
+        b2.setBounds(390,520,150,30);
+        jLabel.add(b2);
 
         b1.addActionListener(this);
         b2.addActionListener(this);
-        b3.addActionListener(this);
 
-        getContentPane().setBackground(Color.WHITE);
-
-        setSize(800,800);
-        setLocation(500,90);
+        setSize(960,1080);
+        setUndecorated(true);
+        setLocation(500,0);
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae){
 
         try{
-
-            String a = t1.getText();
-            String b = t2.getText();
-
-
-
-
             if(ae.getSource()==b1){
+                String amount = t1.getText();
+                Date date = new Date();
                 if(t1.getText().equals("")){
 
                     JOptionPane.showMessageDialog(null, "Please enter the Amount to you want to Deposit");
@@ -111,53 +70,27 @@ public class Deposit extends JFrame implements ActionListener {
                 }else{
 
                     Conn c1 = new Conn();
-
-                    ResultSet rs = c1.s.executeQuery(" select * from bank where pin = '"+b+"' ");
-
-                    double balance = 0;
-                    if(rs.next()){
-                        String pin = rs.getString("pin");
-
-                        balance = rs.getDouble("balance");
-
-                        double d = Double.parseDouble(a);
-                        balance+=d;
-                        String q1= "insert into bank values('"+pin+"','"+d+"',null,'"+balance+"')";
-
-                        c1.s.executeUpdate(q1);
-                    }
-
-
-
-                    JOptionPane.showMessageDialog(null, "Rs. "+a+" Deposited Successfully");
-
-                    new Transaction("").setVisible(true);
+                    c1.s.executeUpdate("insert into bank values('"+pin+"', '"+date+"', 'Deposit', '"+amount+"')");
+                    JOptionPane.showMessageDialog(null, "Rs. "+amount+" Deposited Successfully");
                     setVisible(false);
-
-
+                    new Transaction(pin).setVisible(true);
 
                 }
 
             }else if(ae.getSource()==b2){
 
-                new Transaction("").setVisible(true);
                 setVisible(false);
-
-            }else if(ae.getSource()==b3){
-
-                System.exit(0);
+                new Transaction(pin).setVisible(true);
 
             }
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println("error: "+e);
         }
-
     }
 
     public static void main(String[] args){
-        new Deposit().setVisible(true);
-    }
 
+        new Deposit("").setVisible(true);
+    }
 
 }
