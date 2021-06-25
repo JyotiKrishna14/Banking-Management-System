@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
 
 public class Transaction extends JFrame implements ActionListener {
 
@@ -80,7 +79,7 @@ public class Transaction extends JFrame implements ActionListener {
         l2.add(button2);
 
         /*button3.setBounds(170,543,150,35);
-        l2.add(button3);*/
+        bankName.add(button3);*/
 
         button3.setBounds(170,450,150,30);
         l2.add(button3);
@@ -133,38 +132,18 @@ public class Transaction extends JFrame implements ActionListener {
         }*/
         else if(ae.getSource()== button3){
 
-            setVisible(false);
-            new MiniStatement().setVisible(true);
+            new MiniStatement(pin).setVisible(true);
 
         }else if(ae.getSource()== button4){
 
-            new Pin().setVisible(true);
             setVisible(false);
+            new Pin(pin).setVisible(true);
 
-        }else if(ae.getSource()== button5){
-
-            String pinn = JOptionPane.showInputDialog("Enter PIN");
-            Conn c1 = new Conn();
-
-            try {
-
-                ResultSet rs = c1.statement.executeQuery(" SELECT balance FROM bank ORDER BY pin  = '"+pinn+"' DESC LIMIT 1");
-
-                if(rs.next()){
-
-                    String balance = rs.getString("balance");
-
-                    JOptionPane.showMessageDialog(null,"Your Account Balance is "+balance);
-
-                }
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-            }
-
-        }else if(ae.getSource()== button6){
+        }else if(ae.getSource()== button5) {
+            setVisible(false);
+            new Balance(pin).setVisible(true);
+        }
+        else if(ae.getSource()== button6){
 
             System.exit(0);
 

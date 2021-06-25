@@ -1,56 +1,78 @@
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.sql.*;
 
 public class MiniStatement extends JFrame implements ActionListener{
 
-    JTable t1;
-    JButton b1;
-    String[] x = {"Customer Name","Date","Deposit","Withdraw","Balance"};
-    String[][] y = new String[20][5];
-    int i=0, j=0;
 
-    MiniStatement(){
+    JButton b1;
+    JLabel cardNo,bankName, jlabelStatement,bal;
+
+    MiniStatement(String pin){
         super("Mini Statement");
-        setSize(1200,650);
-        setLocation(200,200);
+        getContentPane().setBackground(Color.WHITE);
+        setSize(400,600);
+        setLocation(20,20);
+
+        cardNo = new JLabel();
+        cardNo.setBounds(20,80,400,20);
+        add(cardNo);
+
+        bankName = new JLabel("Indian Bank");
+        bankName.setBounds(150, 20, 100, 20);
+        add(bankName);
+
+        jlabelStatement = new JLabel();
+        jlabelStatement.setBounds(20, 100, 300, 200);
+        add(jlabelStatement);
+
+        bal = new JLabel();
+        bal.setBounds(20, 470, 300, 20);
+        add(bal);
 
         try{
-            Conn c1  = new Conn();
-            String s1 = "select * from bank";
-            ResultSet rs  = c1.statement.executeQuery(s1);
+            Conn c = new Conn();
+            ResultSet rs = c.statement.executeQuery("select * from login where pin = '"+ pin +"'");
             while(rs.next()){
-                //y[i][j++]=rs.getString("customer_name");
-                //y[i][j++]=rs.getString("date");
-                y[i][j++]=rs.getString("deposit");
-                y[i][j++]=rs.getString("withdraw");
-                y[i][j++]=rs.getString("balance");
-                i++;
-                j=0;
+                cardNo.setText("Card Number:    " + rs.getString("cardno").substring(0, 4) + "XXXXXXXX" + rs.getString("cardno").substring(12));
             }
-            t1 = new JTable(y,x);
-
         }catch(Exception e){
             e.printStackTrace();
         }
 
+        try{
+            double balance = 0;
+            Conn c1  = new Conn();
+            ResultSet rs = c1.statement.executeQuery("SELECT * FROM bank where pin = '"+ pin +"'");
+            while(rs.next()){
+                jlabelStatement.setText(jlabelStatement.getText() + "<html>"+rs.getString("date")+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("mode") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("amount") + "<br><br><html>");
+                if(rs.getString("mode").equals("Deposit")){
+                    balance += Integer.parseInt(rs.getString("amount"));
+                }else{
+                    balance -= Integer.parseInt(rs.getString("amount"));
+                }
+            }
+            bal.setText("Your total Balance is Rs "+balance);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        b1 = new JButton("Print");
-        add(b1,"South");
-        JScrollPane sp = new JScrollPane(t1);
-        add(sp);
+        setLayout(null);
+        b1 = new JButton("Exit");
+        add(b1);
+
         b1.addActionListener(this);
+
+        //cardNo.setBounds(20, 140, 400, 200);
+        b1.setBounds(20, 500, 100, 25);
     }
     public void actionPerformed(ActionEvent ae){
-        try{
-            t1.print();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        this.setVisible(false);
     }
 
     public static void main(String[] args){
-        new MiniStatement().setVisible(true);
+        new MiniStatement("").setVisible(true);
     }
 
 }

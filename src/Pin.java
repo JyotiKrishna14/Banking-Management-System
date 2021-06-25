@@ -6,94 +6,70 @@ public class Pin extends JFrame implements ActionListener{
 
     JPasswordField t1,t2,t3;
     JButton b1,b2;
-    JLabel l1,l2,l3,l4;
+    JLabel l1,l2,l3;
+    private String pin;
 
-    Pin(){
+    Pin(String pin){
+        this.pin=pin;
 
-        setFont(new Font("System", Font.BOLD, 22));
-        Font f = getFont();
-        FontMetrics fm = getFontMetrics(f);
-        int x = fm.stringWidth("PIN CHANGE");
-        int y = fm.stringWidth(" ");
-        int z = getWidth() - (3*x);
-        int w = z/y;
-        String pad ="";
-        //for (int i=0; i!=w; i++) pad +=" ";
-        pad = String.format("%"+w+"statement", pad);
-        setTitle(pad+"PIN CHANGE");
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
+        Image i2 = i1.getImage().getScaledInstance(1000, 900, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel jLabel = new JLabel(i3);
+        jLabel.setBounds(0, 0, 960, 900);
+        add(jLabel);
 
 
         l1 = new JLabel("CHANGE YOUR PIN");
-        l1.setFont(new Font("System", Font.BOLD, 35));
+        l1.setFont(new Font("System", Font.BOLD, 16));
+        l1.setForeground(Color.WHITE);
 
-        l2 = new JLabel("Current PIN:");
-        l2.setFont(new Font("System", Font.BOLD, 22));
+        l2 = new JLabel("New PIN:");
+        l2.setFont(new Font("System", Font.BOLD, 16));
+        l2.setForeground(Color.WHITE);
 
-        l3 = new JLabel("New PIN:");
-        l3.setFont(new Font("System", Font.BOLD, 22));
-
-        l4 = new JLabel("Re-Enter New PIN:");
-        l4.setFont(new Font("System", Font.BOLD, 22));
+        l3 = new JLabel("Re-Enter New PIN:");
+        l3.setFont(new Font("System", Font.BOLD, 16));
+        l3.setForeground(Color.WHITE);
 
         t1 = new JPasswordField();
-        t1.setFont(new Font("Raleway", Font.BOLD, 22));
+        t1.setFont(new Font("Raleway", Font.BOLD, 25));
 
         t2 = new JPasswordField();
-        t2.setFont(new Font("Raleway", Font.BOLD, 22));
+        t2.setFont(new Font("Raleway", Font.BOLD, 25));
 
-        t3 = new JPasswordField();
-        t3.setFont(new Font("Raleway", Font.BOLD, 22));
-
-        b1 = new JButton("SAVE");
-        b1.setFont(new Font("System", Font.BOLD, 18));
-        b1.setBackground(Color.BLACK);
-        b1.setForeground(Color.WHITE);
-
+        b1 = new JButton("CHANGE");
         b2 = new JButton("BACK");
-        b2.setFont(new Font("System", Font.BOLD, 18));
-        b2.setBackground(Color.BLACK);
-        b2.setForeground(Color.WHITE);
 
         b1.addActionListener(this);
         b2.addActionListener(this);
 
-
         setLayout(null);
 
-        l1.setBounds(220,130,800,60);
-        add(l1);
+        l1.setBounds(280,280,800,35);
+        jLabel.add(l1);
 
-        l2.setBounds(100,240,150,40);
-        add(l2);
+        l2.setBounds(180,350,150,35);
+        jLabel.add(l2);
 
-        l3.setBounds(100,300,150,40);
-        add(l3);
+        l3.setBounds(180,395,200,35);
+        jLabel.add(l3);
 
-        l4.setBounds(100,360,200,40);
-        add(l4);
+        t1.setBounds(350,350,180,25);
+        jLabel.add(t1);
 
-        t1.setBounds(310,240,360,40);
-        add(t1);
+        t2.setBounds(350,395,180,25);
+        jLabel.add(t2);
 
-        t2.setBounds(310,300,360,40);
-        add(t2);
+        b1.setBounds(390,480,150,30);
+        jLabel.add(b1);
 
-        t3.setBounds(310,360,360,40);
-        add(t3);
+        b2.setBounds(390,520,150,30);
+        jLabel.add(b2);
 
-        b1.setBounds(220,460,160,50);
-        add(b1);
-
-        b2.setBounds(400,460,160,50);
-        add(b2);
-
-
-
-
-        getContentPane().setBackground(Color.WHITE);
-
-        setSize(800,800);
-        setLocation(500,90);
+        setSize(960,1080);
+        setLocation(360,0);
+        setUndecorated(true);
         setVisible(true);
 
     }
@@ -102,70 +78,48 @@ public class Pin extends JFrame implements ActionListener{
 
         try{
 
-            String a = t1.getText();
-            String b = t2.getText();
-            String c = t3.getText();
+            String newPin = t1.getText();
+            String rPin = t2.getText();
 
-
+            if(!newPin.equals(rPin)){
+                JOptionPane.showMessageDialog(null, "Entered PIN does not match");
+                return;
+            }
 
             if(ae.getSource()==b1){
-                if(t1.getText().equals("")){
-
-                    JOptionPane.showMessageDialog(null, "Please Enter Current PIN");
-
-                }
-                if(t2.getText().equals("")){
-
+                if (t1.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Enter New PIN");
                 }
-                if (t3.getText().equals("")){
-
+                if (t2.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Re-Enter new PIN");
                 }
 
-                if(t2.getText().equals(t3.getText())){
+                Conn c1 = new Conn();
+                String q1 = "update bank set pin = '"+rPin+"' where pin = '"+pin+"' ";
+                String q2 = "update login set pin = '"+rPin+"' where pin = '"+pin+"' ";
+                String q3 = "update signup3 set pin = '"+rPin+"' where pin = '"+pin+"' ";
 
-                    Conn c1 = new Conn();
-                    String q1 = "update bank set pin = '"+b+"' where pin = '"+a+"' ";
-                    String q2 = "update login set pin = '"+b+"' where pin = '"+a+"' ";
-                    String q3 = "update signup3 set pin = '"+b+"' where pin = '"+a+"' ";
+                c1.statement.executeUpdate(q1);
+                c1.statement.executeUpdate(q2);
+                c1.statement.executeUpdate(q3);
 
-                    c1.statement.executeUpdate(q1);
-                    c1.statement.executeUpdate(q2);
-                    c1.statement.executeUpdate(q3);
-
-
-                    JOptionPane.showMessageDialog(null, "PIN changed successfully");
-
-                    new Transaction("").setVisible(true);
-                    setVisible(false);
-
-                }else{
-
-                    JOptionPane.showMessageDialog(null, "PIN entered doesn't match");
-                }
-
-
-
-
+                JOptionPane.showMessageDialog(null, "PIN changed successfully");
+                setVisible(false);
+                new Transaction(rPin).setVisible(true);
 
             }else if(ae.getSource()==b2){
-
-                new Transaction("").setVisible(true);
+                new Transaction(pin).setVisible(true);
                 setVisible(false);
-
             }
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println("error: "+e);
         }
-
     }
 
 
 
 
     public static void main(String[] args){
-        new Pin().setVisible(true);
+        new Pin("").setVisible(true);
     }
 }
