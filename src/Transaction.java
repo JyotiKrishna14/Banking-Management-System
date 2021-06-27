@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 
 public class Transaction extends JFrame implements ActionListener {
 
-    JLabel l1;
+    JLabel l1,nameLabel;
     JButton button1,button2,button3,button4,button5,button6;
     private final String pin;
 
@@ -19,12 +21,28 @@ public class Transaction extends JFrame implements ActionListener {
         l2.setBounds(0, 0, 960, 900);
         add(l2);
 
+        Conn conn = new Conn();
+        String custName="";
+        try {
+            // retrieving customer's name
+            ResultSet res = conn.statement.executeQuery("SELECT NAME FROM signup WHERE custid=(SELECT custid FROM signup3 WHERE pin='"+pin+"')");
+            if(res.next()) {
+                custName = res.getString("name");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         l1 = new JLabel("Please Select Your Transaction");
         l1.setForeground(Color.WHITE);
         l1.setFont(new Font("System", Font.BOLD, 16));
 
+        nameLabel = new JLabel("HI! "+custName);
+        nameLabel.setForeground(Color.black);
+        nameLabel.setFont(new Font("System",Font.BOLD,40));
+
         button1 = new JButton("DEPOSIT");
-        button2 = new JButton("CASH WITHDRAWL");
+        button2 = new JButton("CASH WITHDRAWAL");
         //button3 = new JButton("FAST CASH");
         button3 = new JButton("MINI STATEMENT");
         button4 = new JButton("PIN CHANGE");
@@ -71,6 +89,9 @@ public class Transaction extends JFrame implements ActionListener {
 
         l1.setBounds(235,320,700,35);
         l2.add(l1);
+
+        nameLabel.setBounds(230,150,700,50);
+        l2.add(nameLabel);
 
         button1.setBounds(170,410,150,30);
         l2.add(button1);
